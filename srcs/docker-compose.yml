@@ -1,0 +1,41 @@
+version: "3.7"
+services:
+  wordpress:
+    restart: always
+    build: 
+      context: ./requirements/wordpress
+    networks:
+      - docker-network
+    volumes:
+      - /home/hheimerd/data/database:/home/hheimerd/data
+      - /home/hheimerd/data/src:/var/www/wordpress
+    command: bash
+      
+  mariadb:
+    restart: always
+    build: 
+      args: 
+      - DB_ROOT_PASSWORD=root
+      - DB_USER=hheimerd
+      - DB_PASSWORD=1234
+      context: ./requirements/mariadb
+    networks:
+      - docker-network
+    command: mysqld
+
+  nginx:
+    restart: always
+    build: 
+      args: 
+        - CERT_PATH=./ssl
+      context: ./requirements/nginx
+    networks:
+      - docker-network
+    command: nginx -g 'daemon off';
+    environment:
+      - NGINX_SSL_PORT=433
+      - NGINX_HOST=hheimerd.42.fr
+
+networks: 
+  docker-network:
+    driver: bridge

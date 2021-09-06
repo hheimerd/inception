@@ -1,0 +1,5 @@
+FROM debian:buster
+
+RUN apt update && \
+    apt install -y php-fpm php-mbstring supervisor \
+    mkdir /run/php 
