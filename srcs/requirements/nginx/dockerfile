@@ -1,15 +1,9 @@
 FROM debian:buster
 
 RUN apt update && \
-    apt install -y nginx gettext-base supervisor openssl;
+    apt install -y nginx gettext-base openssl;
 
 RUN useradd www
-
-
-COPY ./entry.sh /
-RUN ["chmod", "+x", "/entry.sh"]
-ENTRYPOINT ["/entry.sh"]
-
 
 RUN mkdir -p /etc/.ssl
 ARG CERT_PATH
@@ -17,3 +11,7 @@ COPY $CERT_PATH /etc/.ssl/
 
 COPY templates/nginx.conf /
 
+COPY ./entry.sh /entry.sh
+RUN ["chmod", "+x", "/entry.sh"]
+
+CMD ["sh", "/entry.sh"]

@@ -1,15 +1,9 @@
 FROM debian:buster
 
-ARG DB_ADMIN_PASSWORD
-ARG DB_USER
-ARG DB_PASSWORD
-
 RUN apt update && \
-    apt install -y mariadb-server supervisor && \
-    service mysql start;
+    apt install -y mariadb-server
 
-RUN mysql_install_db --datadir"/home/hheimerd/data"
+COPY ./entry.sh /entry.sh
+RUN chmod +x ./entry.sh
 
-RUN mysqladmin --user=root password $DB_ROOT_PASSWORD;
-
-RUN echo "CREATE USER $DB_USER IDENTIFIED by  '$DB_PASSWORD';" | mysql;
+CMD /entry.sh
