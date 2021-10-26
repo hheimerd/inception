@@ -1,5 +1,15 @@
 #!/bin/bash
 
-envsubst < /nginx.conf > /etc/nginx/nginx.conf
+echo building config started;
+
+envsubst < /nginx.conf > /etc/nginx/sites-available/host.conf 
+
+echo building config end;
+
+
+rm /etc/nginx/sites-enabled/default 
+ln -s /etc/nginx/sites-available/host.conf /etc/nginx/sites-enabled/host
+
+ls -l /etc/nginx/sites-available
 
 nginx -g 'daemon off;'

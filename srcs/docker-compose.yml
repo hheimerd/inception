@@ -7,8 +7,7 @@ services:
     networks:
       - docker-network
     volumes:
-      - ./data/database:/var/lib/mysql
-      - ./data/src:/var/www/wordpress
+      - wp:/var/www
       
   mariadb:
     restart: always
@@ -16,6 +15,8 @@ services:
       context: ./requirements/mariadb
     networks:
       - docker-network
+    volumes:
+      - wp:/var/lib/mysql
     environment:
       - DB_NAME=wordpress
       - DB_ROOT_PASSWORD=root
@@ -30,12 +31,33 @@ services:
       context: ./requirements/nginx
     networks:
       - docker-network
+    volumes:
+      - wp:/var/www
     environment:
-      - NGINX_SSL_PORT=433
+      - NGINX_SSL_PORT=443
       - NGINX_HOST=hheimerd.42.fr
     ports:
       - 443:443
 
+volumes:
+  wp:
+    name: wp
+    driver: local
+    driver_opts:
+      device: ${VOLUME_PATH}/wordpress
+      type: none
+      o: bind
+  db:
+    name: db
+    driver: local
+    driver_opts:
+      device: $VOLUME_PATH
+      type: none
+      o: bind
+      
+
+
 networks: 
   docker-network:
     driver: bridge
+
