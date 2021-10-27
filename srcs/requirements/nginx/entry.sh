@@ -2,7 +2,7 @@
 
 echo building config started;
 
-envsubst < /nginx.conf > /etc/nginx/sites-available/host.conf 
+envsubst '\$NGINX_HOST \$NGINX_SSL_PORT' < /nginx.conf > /etc/nginx/sites-available/host.conf 
 
 echo building config end;
 

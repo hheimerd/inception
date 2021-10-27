@@ -38,6 +38,7 @@ services:
       - NGINX_HOST=hheimerd.42.fr
     ports:
       - 443:443
+      - 80:80
 
 volumes:
   wp:
