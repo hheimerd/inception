@@ -8,20 +8,6 @@ services:
       - docker-network
     volumes:
       - wp:/var/www
-      
-  mariadb:
-    restart: always
-    build: 
-      context: ./requirements/mariadb
-    networks:
-      - docker-network
-    volumes:
-      - wp:/var/lib/mysql
-    environment:
-      - DB_NAME=wordpress
-      - DB_ROOT_PASSWORD=root
-      - DB_USER=hheimerd
-      - DB_PASSWORD=1234
 
   nginx:
     # restart: always
@@ -39,6 +25,28 @@ services:
     ports:
       - 443:443
       - 80:80
+
+      
+  mariadb:
+    restart: always
+    build: 
+      context: ./requirements/mariadb
+    networks:
+      - docker-network
+    volumes:
+      - db:/var/lib/mysql
+    environment:
+      - DB_NAME=wordpress
+      - DB_ROOT_PASSWORD=root
+      - DB_USER=hheimerd
+      - DB_PASSWORD=1234
+
+  adminer:
+    restart: always
+    build: 
+      context: ./requirements/adminer
+    networks:
+      - docker-network
 
 volumes:
   wp:

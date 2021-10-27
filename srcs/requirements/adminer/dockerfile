@@ -1,0 +1,10 @@
+FROM debian:buster
+
+RUN apt update && \
+    apt install -y php php-mbstring php-mysql
+ 
+RUN mkdir /run/php
+
+COPY ./adminer.php /var/www/index.php
+
+CMD ["php", "-S", "0.0.0.0:8080", "-t", "/var/www"]
