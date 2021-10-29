@@ -1,7 +1,7 @@
 FROM debian:buster
 
 RUN apt update && \
-    apt install -y mariadb-server gettext-base sudo
+    apt install -y mariadb-server gettext-base
 
 COPY ./entry.sh /entry.sh
 COPY ./init.sql /tmp/init.sql

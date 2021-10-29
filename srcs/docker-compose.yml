@@ -47,6 +47,15 @@ services:
     networks:
       - docker-network
 
+  redis:
+    restart: always
+    build: 
+      context: ./requirements/redis
+    networks:
+      - docker-network
+    ports:
+      - 6379:6379
+
 volumes:
   wp:
     name: wp
