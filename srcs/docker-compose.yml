@@ -13,15 +13,14 @@ services:
     # restart: always
     build: 
       args: 
-        - CERT_PATH=./ssl
+        - CERT_PATH=$CERT_PATH
       context: ./requirements/nginx
     networks:
       - docker-network
     volumes:
       - wp:/var/www
     environment:
-      - NGINX_SSL_PORT=443
-      - NGINX_HOST=hheimerd.42.fr
+      - NGINX_HOST=$HOSTNAME
     ports:
       - 443:443
 
@@ -35,10 +34,10 @@ services:
     volumes:
       - db:/var/lib/mysql
     environment:
-      - DB_NAME=wordpress
-      - DB_ROOT_PASSWORD=root
-      - DB_USER=hheimerd
-      - DB_PASSWORD=1234
+      - DB_NAME=$DB_NAME
+      - DB_ROOT_PASSWORD=$DB_ROOT_PASSWORD
+      - DB_USER=$DB_USER
+      - DB_PASSWORD=$DB_PASSWORD
 
   adminer:
     restart: always
@@ -61,7 +60,7 @@ volumes:
     name: wp
     driver: local
     driver_opts:
-      device: ${VOLUME_PATH}/wordpress
+      device: ${VOLUME_PATH}/wordpress_data
       type: none
       o: bind
   db:
