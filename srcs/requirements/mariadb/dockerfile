@@ -5,7 +5,7 @@ RUN apt update && \
 
 COPY ./entry.sh /entry.sh
 COPY ./init.sql /tmp/init.sql
-COPY ./templates/my.cnf etc/mysql/conf.d/my.cnf
+COPY ./my.cnf /etc/mysql/my.cnf
 
 RUN chmod +x ./entry.sh
 

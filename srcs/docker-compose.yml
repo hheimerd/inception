@@ -32,8 +32,8 @@ services:
       context: ./requirements/mariadb
     networks:
       - docker-network
-    # volumes:
-    #   - db:/var/lib/mysql
+    volumes:
+      - db:/var/lib/mysql
     environment:
       - DB_NAME=wordpress
       - DB_ROOT_PASSWORD=root

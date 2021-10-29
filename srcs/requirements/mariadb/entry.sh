@@ -1,27 +1,35 @@
 #!/bin/sh
 
-# /usr/bin/mysql_install_db --datadir="/var/lib/mysql"
+/usr/bin/mysql_install_db --datadir="/var/lib/mysql"
 
-/etc/init.d/mariadb setup
+mysqld_safe &
 
-echo '/etc/init'
-service mysql start
+is_mysql_alive() {
+  mysql > /dev/null 2>&1
+  returned_value=$?
+  echo ${returned_value}
+}
 
-mysql -u root --skip-password -e  "CREATE DATABASE IF NOT EXISTS $DB_NAME;
-CREATE USER IF NOT EXISTS '$DB_USER'@'%' IDENTIFIED BY '$DB_PASSWORD';
-GRANT ALL PRIVILEGES ON *.* TO '$DB_USER'@'%' WITH GRANT OPTION;
+until [ "$(is_mysql_alive)" -eq 0 ]
+do
+  sleep 1
+  echo "Waiting for MySQL to be ready..." 
+done
+
+mysql -uroot --skip-password -e  "
+CREATE USER IF NOT EXISTS 'root'@'%' IDENTIFIED BY '$DB_ROOT_PASSWORD';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
 FLUSH PRIVILEGES;"
 
-# /etc/init.d/mysql start
 
+mysql -uroot --skip-password -e  "CREATE DATABASE IF NOT EXISTS $DB_NAME;
+CREATE USER IF NOT EXISTS '$DB_USER'@'%' IDENTIFIED BY '$DB_PASSWORD';
+GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$DB_USER'@'%' WITH GRANT OPTION;
+FLUSH PRIVILEGES;"
 
-# sudo mysql  < /init.sql 
+(mysql --user="root" --skip-password -D $DB_NAME) < /tmp/init.sql
 
-mysql -u root  < /tmp/init.sql
-
-mysql -u root --skip-password -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '$DB_ROOT_PASSWORD';"
-
-service mysql stop
+/etc/init.d/mysql stop
 
 echo end
-# /usr/bin/mysql_secure_installation
+exec "$@"
