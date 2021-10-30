@@ -12,7 +12,7 @@ services:
       - DB_NAME=$DB_NAME
       - DB_USER=$DB_USER
       - DB_PASSWORD=$DB_PASSWORD
-      - DB_HOST=mariadb:3306
+      - DB_HOST=mariadb
     networks:
       - docker-network
     volumes:
@@ -33,7 +33,6 @@ services:
     ports:
       - 443:443
 
-      
   mariadb:
     restart: always
     build: 

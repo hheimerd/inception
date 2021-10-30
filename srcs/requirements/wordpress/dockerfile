@@ -7,6 +7,6 @@ RUN mkdir /run/php
 
 COPY ./www.conf /etc/php/7.3/fpm/pool.d/www.conf
 COPY ./start.sh /tmp/start.sh
-COPY ./wp-config.php /var/www/wp-config.php
+COPY ./wp-config.php /tmp/wp-config.php
 
 CMD ["sh", "/tmp/start.sh"]
