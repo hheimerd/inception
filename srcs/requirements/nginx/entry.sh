@@ -12,4 +12,4 @@ ln -s /etc/nginx/sites-available/host.conf /etc/nginx/sites-enabled/host
 
 ls -l /etc/nginx/sites-available
 
-nginx -g 'daemon off;'
+exec "$@"

@@ -22,16 +22,23 @@
 /** The name of the database for WordPress */
 
 $db_env = [
-	'DB_NAME',
-	'DB_USER',
-	'DB_PASSWORD',
-	'DB_HOST'
+	'DB_NAME' => '${DB_NAME}',
+	'DB_USER' => '${DB_USER}',
+	'DB_PASSWORD' => '${DB_PASSWORD}',
+	'DB_HOST' => '${DB_HOST}'
 ];
 
-foreach ($db_env as $key)
+foreach ($db_env as $key => $value)
 {
-	define($key, getenv($key));
+	define($key, $value);
 }
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// die();
+
 
 /** Database charset to use in creating database tables. */
 define( 'DB_CHARSET', 'utf8' );

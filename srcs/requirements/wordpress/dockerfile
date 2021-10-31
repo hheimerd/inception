@@ -1,12 +1,14 @@
 FROM debian:buster
 
-RUN apt update && \
-    apt install -y php-fpm php-mbstring php-mysql 
+RUN apt-get update && \
+    apt-get install -y php-fpm php-mbstring php-cli php-mysql gettext-base php-redis
 
 RUN mkdir /run/php
 
 COPY ./www.conf /etc/php/7.3/fpm/pool.d/www.conf
-COPY ./start.sh /tmp/start.sh
+COPY ./entry.sh /tmp/entry.sh
 COPY ./wp-config.php /tmp/wp-config.php
 
-CMD ["sh", "/tmp/start.sh"]
+ENTRYPOINT ["sh", "/tmp/entry.sh"]
+
+CMD ["/usr/sbin/php-fpm7.3", "-F", "-R"]

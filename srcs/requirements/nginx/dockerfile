@@ -14,4 +14,5 @@ COPY templates/nginx.conf /
 COPY ./entry.sh /entry.sh
 RUN ["chmod", "+x", "/entry.sh"]
 
-CMD ["sh", "/entry.sh"]
+ENTRYPOINT ["sh", "/entry.sh"]
+CMD ["nginx","-g", "daemon off;"]

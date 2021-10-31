@@ -31,5 +31,7 @@ FLUSH PRIVILEGES;"
 
 /etc/init.d/mysql stop
 
+chmod -R 777 /var/lib/mysql/wordpress
+
 echo end
 exec "$@"
