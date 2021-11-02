@@ -42,12 +42,14 @@ services:
       context: ./requirements/ftps
     environment:
       - FTP_ROOT=/ftp
+    networks:
+      - docker-network
     volumes:
       - wp:/ftp
     ports:
-      - "21:21"
       - "20:20"
-      - "21000:21000"
+      - "21:21"
+      - "60000-65535:60000-65535"
 
   mariadb:
     restart: always

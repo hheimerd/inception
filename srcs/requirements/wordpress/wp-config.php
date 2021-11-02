@@ -25,7 +25,10 @@ $db_env = [
 	'DB_NAME' => '${DB_NAME}',
 	'DB_USER' => '${DB_USER}',
 	'DB_PASSWORD' => '${DB_PASSWORD}',
-	'DB_HOST' => '${DB_HOST}'
+	'DB_HOST' => '${DB_HOST}',
+	'FTP_BASE' => '/',
+	'FTP_CONTENT_DIR' => '/wp-content',
+	'FTP_PLUGIN_DIR' => '/wp-content/plugins'
 ];
 
 foreach ($db_env as $key => $value)
@@ -39,6 +42,8 @@ error_reporting(E_ALL);
 
 // die();
 
+
+define('FS_METHOD', 'direct');
 
 /** Database charset to use in creating database tables. */
 define( 'DB_CHARSET', 'utf8' );

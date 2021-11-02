@@ -1,24 +1,38 @@
-FROM alpine
+FROM debian:buster
 
-RUN apk update
-RUN apk add lftp gettext vsftpd openrc --no-cache
+RUN apt update
+RUN apt install -y ufw proftpd
 
-ARG FTP_USER=user
-ARG FTP_PASS=password
+# RUN ufw allow 20,21,60000:65535/tcp
 
-RUN { echo "$FTP_PASS"; echo "$FTP_PASS"; } | adduser "$FTP_USER"
+CMD ["tail", "-f", "/dev/null"]
 
-COPY ./vsftpd.conf /tmp
-COPY ./ssl /etc/ssl
 
-RUN touch /etc/vsftpd.chroot_list
-RUN echo "set ssl:verify-certificate no" >> /etc/lftp.conf
-RUN mkdir /var/ftp
-RUN mkdir /var/ftp/pub
-RUN chmod 2775 /var/ftp/pub
 
-COPY ./entry.sh /entry.sh
 
-# CMD ["tail", "-f", "/dev/null"]
-ENTRYPOINT [ "sh", "/entry.sh" ]
-CMD ["vsftpd", "vsftpd.conf"]
+
+
+
+
+
+
+
+
+
+# RUN apt install -y gettext vsftpd 
+
+# ARG FTP_USER=user
+# ARG FTP_PASS=password
+
+# RUN mkdir -p /var/run/vsftpd/empty && chmod 0755 /var/run/vsftpd/empty
+
+# RUN { echo "$FTP_PASS"; echo "$FTP_PASS"; } | adduser "$FTP_USER"
+
+# COPY ./vsftpd.conf /tmp
+# COPY ./ssl /etc/ssl
+
+# COPY ./entry.sh /entry.sh
+
+# # CMD ["tail", "-f", "/dev/null"]
+# ENTRYPOINT [ "sh", "/entry.sh" ]
+# CMD ["vsftpd", "vsftpd.conf"]
