@@ -21,13 +21,13 @@ CREATE USER IF NOT EXISTS 'root'@'%' IDENTIFIED BY '$DB_ROOT_PASSWORD';
 GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
 FLUSH PRIVILEGES;"
 
+(mysql --user="root" --skip-password ) < /tmp/init.sql
 
-mysql -uroot --skip-password -e  "CREATE DATABASE IF NOT EXISTS $DB_NAME;
-CREATE USER IF NOT EXISTS '$DB_USER'@'%' IDENTIFIED BY '$DB_PASSWORD';
-GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$DB_USER'@'%' WITH GRANT OPTION;
+mysql -uroot --skip-password -e  "
+CREATE USER IF NOT EXISTS 'wordpress'@'%' IDENTIFIED BY '$DB_PASSWORD';
+GRANT ALL PRIVILEGES ON wordpress.* TO '$DB_USER'@'%' WITH GRANT OPTION;
 FLUSH PRIVILEGES;"
 
-(mysql --user="root" --skip-password -D $DB_NAME) < /tmp/init.sql
 
 /etc/init.d/mysql stop
 

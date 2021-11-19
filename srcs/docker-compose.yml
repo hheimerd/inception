@@ -1,4 +1,4 @@
-version: "3.7"
+version: "3.5"
 services:
   wordpress:
     restart: always
@@ -39,17 +39,15 @@ services:
       args:
         - FTP_USER=$FTP_USER
         - FTP_PASS=$FTP_PASS
-      context: ./requirements/ftps
-    environment:
-      - FTP_ROOT=/ftp
+      context: ./requirements/ftp
     networks:
       - docker-network
     volumes:
       - wp:/ftp
     ports:
       - "20:20"
-      - "21:21"
-      - "60000-65535:60000-65535"
+      - "25:21"
+      - "21000:21000"
 
   mariadb:
     restart: always
