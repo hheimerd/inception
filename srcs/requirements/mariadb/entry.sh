@@ -25,7 +25,7 @@ FLUSH PRIVILEGES;"
 
 mysql -uroot --skip-password -e  "
 CREATE USER IF NOT EXISTS 'wordpress'@'%' IDENTIFIED BY '$DB_PASSWORD';
-GRANT ALL PRIVILEGES ON wordpress.* TO '$DB_USER'@'%' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON wordpress.* TO 'wordpress'@'%' IDENTIFIED BY '$DB_PASSWORD';
 FLUSH PRIVILEGES;"
 
 
