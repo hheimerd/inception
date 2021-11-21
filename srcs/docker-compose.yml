@@ -1,7 +1,7 @@
 version: "3.5"
 services:
   wordpress:
-    restart: always
+    restart: unless-stopped
     build: 
       context: ./requirements/wordpress
     depends_on: 
@@ -19,7 +19,7 @@ services:
       - wp:/var/www
 
   nginx:
-    restart: always
+    restart: unless-stopped
     build: 
       args: 
         - CERT_PATH=$CERT_PATH
@@ -33,8 +33,22 @@ services:
     ports:
       - 443:443
 
+  node:
+    restart: unless-stopped
+    build:
+      context: ./requirements/node
+    environment:
+      - NODE_ENV=production
+    networks:
+      - docker-network
+    volumes:
+      - node-app:/app
+    command: "sh -c 'npx create-react-app app; cd app && npm start'"
+    ports:
+      - 3000:3000
+
   ftp:
-    restart: always
+    restart: unless-stopped
     build:
       args:
         - FTP_USER=$FTP_USER
@@ -50,7 +64,7 @@ services:
       - "21000:21000"
 
   mariadb:
-    restart: always
+    restart: unless-stopped
     build: 
       context: ./requirements/mariadb
     networks:
@@ -64,14 +78,14 @@ services:
       - DB_PASSWORD=$DB_PASSWORD
 
   adminer:
-    restart: always
+    restart: unless-stopped
     build: 
       context: ./requirements/adminer
     networks:
       - docker-network
 
   redis:
-    restart: always
+    restart: unless-stopped
     build: 
       context: ./requirements/redis
     networks:
@@ -92,7 +106,13 @@ volumes:
       device: ${VOLUME_PATH}
       type: none
       o: bind
-      
+  node-app:
+    name: node-app
+    driver: local
+    driver_opts:
+      device: ${VOLUME_PATH}/node-app
+      type: none
+      o: bind
 
 
 networks: 
