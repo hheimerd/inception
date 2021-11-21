@@ -15,6 +15,6 @@ clean:
 	docker-compose -f ${CONF_PATH} --env-file ${ENV_FILE} down -v
 
 fclean: clean
-	rm -rf ${DATA_PATH}/wordpress_data
+	rm -rf ${DATA_PATH}
 
 re: fclean all
