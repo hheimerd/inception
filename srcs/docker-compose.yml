@@ -110,7 +110,7 @@ volumes:
     name: db
     driver: local
     driver_opts:
-      device: ${VOLUME_PATH}
+      device: ${VOLUME_PATH}/database
       type: none
       o: bind
   node-app:

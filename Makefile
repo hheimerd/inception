@@ -6,6 +6,7 @@ DATA_PATH=/home/${USER}/data
 all:
 	mkdir -p ${DATA_PATH}/wordpress_data
 	mkdir -p ${DATA_PATH}/node-app
+	mkdir -p ${DATA_PATH}/database
 	chown -R ${USER}:${USER} ${DATA_PATH}/wordpress_data ${DATA_PATH}/node-app
 	docker-compose -f ${CONF_PATH} --env-file ${ENV_FILE} build
 	docker-compose -f ${CONF_PATH} --env-file ${ENV_FILE} up
