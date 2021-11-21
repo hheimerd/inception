@@ -1,24 +1,26 @@
 version: "3.5"
 services:
   wordpress:
+    container_name: wordpress
     restart: unless-stopped
     build: 
       context: ./requirements/wordpress
     depends_on: 
-      - mariadb
+      - database
       - redis
       - nginx
     environment:
       - DB_NAME=$DB_NAME
       - DB_USER=$DB_USER
       - DB_PASSWORD=$DB_PASSWORD
-      - DB_HOST=mariadb
+      - DB_HOST=database
     networks:
       - docker-network
     volumes:
       - wp:/var/www
 
   nginx:
+    container_name: nginx
     restart: unless-stopped
     build: 
       args: 
@@ -34,6 +36,7 @@ services:
       - 443:443
 
   node:
+    container_name: node
     restart: unless-stopped
     build:
       context: ./requirements/node
@@ -43,11 +46,12 @@ services:
       - docker-network
     volumes:
       - node-app:/app
-    command: "sh -c 'npx create-react-app app; cd app && npm start'"
+    command: "sh -c 'npx create-react-app app; cd app && npm i && npm start'"
     ports:
       - 3000:3000
 
   ftp:
+    container_name: ftp
     restart: unless-stopped
     build:
       args:
@@ -60,13 +64,14 @@ services:
       - wp:/ftp
     ports:
       - "20:20"
-      - "25:21"
+      - "${FTP_PORT}:21"
       - "21000:21000"
 
-  mariadb:
+  database:
+    container_name: database
     restart: unless-stopped
     build: 
-      context: ./requirements/mariadb
+      context: ./requirements/database
     networks:
       - docker-network
     volumes:
@@ -78,6 +83,7 @@ services:
       - DB_PASSWORD=$DB_PASSWORD
 
   adminer:
+    container_name: adminer
     restart: unless-stopped
     build: 
       context: ./requirements/adminer
@@ -85,6 +91,7 @@ services:
       - docker-network
 
   redis:
+    container_name: redis
     restart: unless-stopped
     build: 
       context: ./requirements/redis

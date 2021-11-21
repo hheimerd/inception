@@ -2,6 +2,8 @@
 
 /usr/bin/mysql_install_db --datadir="/var/lib/mysql"
 
+chown -r $USER:$USER /var/lib/mysql
+
 mysqld_safe &
 
 is_mysql_alive() {
