@@ -14,6 +14,7 @@ services:
       - DB_USER=$DB_USER
       - DB_PASSWORD=$DB_PASSWORD
       - DB_HOST=database
+      - APP_DIR=/var/www
     networks:
       - docker-network
     volumes:

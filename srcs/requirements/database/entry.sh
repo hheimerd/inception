@@ -2,7 +2,7 @@
 
 /usr/bin/mysql_install_db --datadir="/var/lib/mysql"
 
-chown -r $USER:$USER /var/lib/mysql
+chown -R $USER:$USER /var/lib/mysql
 
 mysqld_safe &
 
